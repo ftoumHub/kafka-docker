@@ -108,13 +108,13 @@ docker exec -it zookeeper-1 bash
 ```
 Create the Topic:
 ```sh
-cd bin
+cd /kafka/bin
 sh kafka-topics.sh --create --zookeeper zookeeper-1:2181 --replication-factor 1 --partitions 3 --topic Orders
 ```
 
 Describe our Topic:
 ```sh
-cd bin
+cd /kafka/bin
 sh kafka-topics.sh --describe --topic Orders --zookeeper zookeeper-1:2181
 ```
 
@@ -127,11 +127,10 @@ We can then run the consumer that will receive that message on that Orders topic
 
 ```
 docker exec -it zookeeper-1 bash
-
-/kafka/bin/kafka-console-consumer.sh \
---bootstrap-server kafka-1:9092,kafka-2:9092,kafka-3:9092 \
---topic Orders --from-beginning
-
+```
+```sh
+cd /kafka/bin
+sh kafka-console-consumer.sh --bootstrap-server kafka-1:9092,kafka-2:9092,kafka-3:9092 --topic Orders --from-beginning
 ```
 
 With a consumer in place, we can start producing messages
@@ -139,10 +138,10 @@ With a consumer in place, we can start producing messages
 ```
 docker exec -it zookeeper-1 bash
 
-echo "New Order: 1" | \
-/kafka/bin/kafka-console-producer.sh \
---broker-list kafka-1:9092,kafka-2:9092,kafka-3:9092 \
---topic Orders > /dev/null
+```
+```sh
+cd /kafka/bin
+echo "New Order: 1" | sh kafka-console-producer.sh --broker-list kafka-1:9092,kafka-2:9092,kafka-3:9092 --topic Orders > /dev/null
 ```
 
 
